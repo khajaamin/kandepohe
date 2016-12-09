@@ -8,7 +8,7 @@ use common\models\EducationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * EducationController implements the CRUD actions for Education model.
  */
@@ -20,14 +20,27 @@ class EducationController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','create','view','update','delete','logout'],
+                'rules' => [
+                    [
+                        'actions' => ['index','create','view','update','delete','logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
+                    'logout' => ['post'],
                     'delete' => ['POST'],
                 ],
             ],
         ];
     }
+
 
     /**
      * Lists all Education models.
