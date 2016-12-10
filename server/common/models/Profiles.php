@@ -66,12 +66,12 @@ class Profiles extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'name', 'marital_status','mobile', 'gender','profile_image', 'date_of_birth', 'country', 'state', 'city', 'blood_group'], 'required'],
+            [[ 'name', 'marital_status','mobile', 'gender', 'date_of_birth', 'country','profile_image', 'state', 'city', 'blood_group'], 'required'],
             [['mobile', 'charan', 'brothers', 'sisters', 'expected_min_age', 'expected_max_age'], 'integer'],
             [['gender'], 'string'],
             [['height', 'expected_min_height', 'expected_max_height'], 'number'],
             [['birthtime'], 'safe'],
-            [['profile_image'],'file']
+            [['profile_image'],'file'],
             [['name','date_of_birth', 'marital_status', 'country', 'state', 'city', 'blood_group', 'complextion', 'built', 'religion', 'caste', 'sub_caste', 'diet', 'birthplace', 'rashi', 'nakshatra', 'nadi', 'gan', 'gotra', 'education', 'occupation', 'income', 'father', 'mother', 'expected_caste', 'expected_education', 'expected_occupation'], 'string', 'max' => 255],
         ];
     }
@@ -94,6 +94,7 @@ class Profiles extends \yii\db\ActiveRecord
             'city' => 'City',
             'mobile' => 'Mobile',
             'height' => 'Height',
+            'weight' => 'Weight',
             'blood_group' => 'Blood Group',
             'complextion' => 'Complextion',
             'built' => 'Built',

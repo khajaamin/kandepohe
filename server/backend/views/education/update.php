@@ -1,11 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Education */
 
-$this->title = 'Update Education: ' . $model->id;
+$this->title = 'Update Education: ';
 $this->params['breadcrumbs'][] = ['label' => 'Educations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -17,5 +18,6 @@ $this->params['breadcrumbs'][] = 'Update';
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+    <a class="btn btn-primary btn-md" href="<?php echo Url::toRoute(['contact/update','id'=>$model->user_id]);?>">Update contact >></a>
 
 </div>

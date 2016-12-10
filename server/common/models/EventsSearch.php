@@ -19,6 +19,7 @@ class EventsSearch extends Events
     {
         return [
             [['id'], 'integer'],
+            [['image_file'],'file'],
             [['name', 'date', 'start_time', 'end_time', 'venue', 'description', 'organised_by'], 'safe'],
         ];
     }

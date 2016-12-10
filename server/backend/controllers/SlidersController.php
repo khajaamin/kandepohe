@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use common\models\Sliders;
 use common\models\SlidersSearch;
 use yii\web\Controller;
@@ -20,9 +21,21 @@ class SlidersController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','create','view','update','delete','logout'],
+                'rules' => [
+                    [
+                        'actions' => ['index','create','view','update','delete','logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
+                    'logout' => ['post'],
                     'delete' => ['POST'],
                 ],
             ],
@@ -69,7 +82,7 @@ class SlidersController extends Controller
 
                $imageName = "slider_image_".rand();
                $model->image_file = UploadedFile::getInstance($model,'image_file');
-               $model->image_file->saveAs('images/'.$imageName.'.'.$model->image_file->extension);
+               $model->image_file->saveAs('../../frontend/web/images/'.$imageName.'.'.$model->image_file->extension);
                $model->image_file = $imageName.'.'.$model->image_file->extension;    
 
              $model->save();
@@ -89,9 +102,27 @@ class SlidersController extends Controller
      */
     public function actionUpdate($id)
     {
+        $pid = Sliders::find()->where(['id'=>$id])->one();       
+        $model = $this->findModel($pid['id']);
+        $image = $model['image_file'];
+        
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $imageName = "slider_image_".rand();
+           $model->image_file = UploadedFile::getInstance($model,'image_file');
+
+           if(!empty($model->image_file)){
+                $model->image_file->saveAs('../../frontend/web/images/'.$imageName.'.'.$model->image_file->extension);
+                  echo $imageName.'.'.$model->image_file->extension;
+                   $model->image_file = $imageName.'.'.$model->image_file->extension;
+                   $model->save();
+            }else{
+
+                $model->image_file = $image;
+                $model->save();
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
